@@ -159,6 +159,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - uses: ./.github/actions/install-modules
+      - run: sleep 30
       - uses: ./.github/actions/run-e2e-tests
         with:
           dbOptions: '--dbclient=mysql --dbhost=127.0.0.1 --dbport=4000 --dbname=strapi_test --dbusername=root --dbpassword='
