@@ -30,6 +30,14 @@ const databases = {
     username: 'root',
     password: 'root',
   },
+  tidb: {
+    client: 'mysql',
+    host: '127.0.0.1',
+    port: 4000,
+    database: 'strapi-test',
+    username: 'root',
+    password: '',
+  },
   sqlite: {
     client: 'sqlite',
     filename: './tmp/data.db',
