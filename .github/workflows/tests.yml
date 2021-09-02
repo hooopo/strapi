@@ -136,6 +136,32 @@ jobs:
       - uses: ./.github/actions/run-e2e-tests
         with:
           dbOptions: '--dbclient=mysql --dbhost=localhost --dbport=3306 --dbname=strapi_test --dbusername=strapi --dbpassword=strapi'
+  
+  e2e_ce_tidb:
+    runs-on: ubuntu-latest
+    needs: [lint, unit_back, unit_front]
+    name: '[CE] E2E (tidb, node: ${{ matrix.node }})'
+    strategy:
+      matrix:
+        node: [12, 14]
+      max-parallel: 2
+    services:
+      tidb:
+        image: hooopo/tidb-playground:v5.2.0
+        env:
+          TIDB_VERSION: v5.2.0
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 4000:4000
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: ${{ matrix.node }}
+      - uses: ./.github/actions/install-modules
+      - uses: ./.github/actions/run-e2e-tests
+        with:
+          dbOptions: '--dbclient=mysql --dbhost=127.0.0.1 --dbport=4000 --dbname=strapi_test --dbusername=root --dbpassword=""'
 
   e2e_ce_sqlite:
     runs-on: ubuntu-latest
