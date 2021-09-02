@@ -146,7 +146,7 @@ jobs:
         node: [12, 14]
       max-parallel: 2
     services:
-      mysql:
+      tidb:
         image: hooopo/tidb-playground:v5.2.0
         env:
           TIDB_VERSION: v5.2.0
@@ -159,10 +159,9 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - uses: ./.github/actions/install-modules
-      - run: sleep 30
       - uses: ./.github/actions/run-e2e-tests
         with:
-          dbOptions: '--dbclient=mysql --dbhost=127.0.0.1 --dbport=4000 --dbname=strapi_test --dbusername=root --dbpassword='
+          dbOptions: '--dbclient=mysql --dbhost=127.0.0.1 --dbport=4000 --dbname=strapi_test --dbusername=root --dbpassword=""'
 
   e2e_ce_sqlite:
     runs-on: ubuntu-latest
